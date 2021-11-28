@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>com.thelumiereguy.composeplugin.ComposePlugin</id>
+    <name>ComposeHint</name>
+    <vendor email="piyushvp1@gmail.com" url="https://www.google.com">thelumiereguy</vendor>
+
+    <description><![CDATA[
+    A simple plugin to show hints around composables to wrap it with other composables.
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>com.intellij.modules.java</depends>
+
+
+    <extensions defaultExtensionNs="com.intellij">
+        <intentionAction>
+            <className>com.thelumiereguy.composeplugin.intention.ComposableWrapper</className>
+            <category>SDK intentions</category>
+        </intentionAction>
+    </extensions>
+
+</idea-plugin>
