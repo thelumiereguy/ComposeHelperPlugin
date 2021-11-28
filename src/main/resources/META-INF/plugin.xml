@@ -18,6 +18,12 @@
             <className>com.thelumiereguy.composeplugin.intention.ComposableWrapper</className>
             <category>SDK intentions</category>
         </intentionAction>
+
+
+        <codeInsight.lineMarkerProvider
+                language="kotlin"
+                implementationClass="com.thelumiereguy.composeplugin.line_marker_provider.ComposeLineMarkerProvider">
+        </codeInsight.lineMarkerProvider>
     </extensions>
 
 </idea-plugin>
