@@ -1,8 +1,6 @@
-import org.jetbrains.kotlin.gradle.plugin.statistics.ReportStatisticsToElasticSearch.url
-
 plugins {
-    id("java")
-    kotlin("jvm") version "1.6.0"
+//    id("java")
+    kotlin("jvm") version "1.5.10"
     id("org.jetbrains.intellij") version "1.3.0"
 }
 
@@ -10,28 +8,33 @@ group = "com.thelumiereguy.composeplugin"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    maven { url = uri("https://maven.google.com/") }
+    maven { url = uri("https://dl.bintray.com/kotlin/uast/") }
 }
 
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.6.0")
-//    implementation("androidx.compose.runtime:runtime:1.0.5")
+//    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10")
+
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.1.1")
-    plugins.set(listOf("java", "Kotlin"))
+    version.set("2020.3.1")
+    plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 
 
-tasks {
-    runIde {
-        ideDir.set(file("D:\\android-studio"))
-    }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
 
+tasks {
+//    runIde {
+//        ideDir.set(file("D:\\android-studio"))
+//    }
 
     patchPluginXml {
         changeNotes.set(
