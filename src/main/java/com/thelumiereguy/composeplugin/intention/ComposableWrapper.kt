@@ -6,14 +6,12 @@ import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.codeStyle.CodeStyleManager
 import com.thelumiereguy.composeplugin.core.composable_function_finder.ComposableFunctionFinder
 import com.thelumiereguy.composeplugin.core.composable_function_finder.ComposableFunctionFinder2Impl
-import org.intellij.lang.annotations.Language
+import com.thelumiereguy.composeplugin.core.get_root_element.GetRootElement
 import org.jetbrains.kotlin.idea.KotlinLanguage
-import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtProperty
-import org.jetbrains.uast.USimpleNameReferenceExpression
+import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.uast.toUElement
 
 class ComposableWrapper : PsiElementBaseIntentionAction(), IntentionAction {
@@ -46,43 +44,35 @@ class ComposableWrapper : PsiElementBaseIntentionAction(), IntentionAction {
         } ?: false
     }
 
+    private val getRootElement = GetRootElement()
+
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
 
-        val uElement = element.parent?.toUElement()
+        CommandProcessor.getInstance().executeCommand(
+            project,
+            {
 
-//        CommandProcessor.getInstance().executeCommand(
-//            project,
-//            {
-                println("executeCommand")
-
-                if (uElement is USimpleNameReferenceExpression) {
-                    println("USimpleNameReferenceExpression")
-                    uElement.sourcePsi?.let {
-                        val file = PsiFileFactory.getInstance(project).createFileFromText(
-                            KotlinLanguage.INSTANCE,
-                            """
-                                Box(modifier = Modifier) {
-                                
+                getRootElement(element.parent)?.let { rootElement ->
+                    val file = KtPsiFactory(project).createExpression(
+                        """
+                                Row(modifier = Modifier) {
+                                    item {
+                                    ${rootElement.text}
+                                    }
                                 }
                             """.trimIndent().trim()
-                        )
+                    )
 
-                        println("To be inserted $file")
-                    }
+                    rootElement.replace(file)
+
+                    CodeStyleManager.getInstance(project).reformat(file)
+
+                    println("To be inserted ${file.text}")
                 }
 
-                if (element is KtCallExpression) {
-
-                }
-
-                if (element is KtProperty) {
-
-                }
-
-
-//            }, "",
-//            "composeplugin"
-//        )
+            }, "",
+            "composeplugin"
+        )
 
     }
 

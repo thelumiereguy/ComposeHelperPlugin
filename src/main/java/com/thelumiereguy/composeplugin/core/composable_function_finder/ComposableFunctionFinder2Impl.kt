@@ -4,6 +4,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.KtValueArgumentList
 import org.jetbrains.uast.USimpleNameReferenceExpression
 import org.jetbrains.uast.toUElement
 
@@ -23,6 +24,13 @@ class ComposableFunctionFinder2Impl : ComposableFunctionFinder {
 
         if (psiElement is KtProperty) {
             return detectComposableFromKtProperty(psiElement)
+        }
+
+        if (psiElement is KtValueArgumentList) {
+            val parent = psiElement.parent
+            if (parent is KtCallExpression) {
+                return detectComposableFromCallExpression(parent)
+            }
         }
 
         return false
