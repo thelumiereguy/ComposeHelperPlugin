@@ -6,12 +6,12 @@ import com.intellij.lang.Language
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.thelumiereguy.composeplugin.core.composable_function_finder.ComposableFunctionFinder
-import com.thelumiereguy.composeplugin.core.composable_function_finder.ComposableFunctionFinderImpl
+import com.thelumiereguy.composeplugin.core.composable_function_finder.LineComposableFunctionFinderImpl
 import com.thelumiereguy.composeplugin.icons.SdkIcons
 
 class ComposeLineMarkerProvider : LineMarkerProvider {
 
-    private val composableFunctionFinder: ComposableFunctionFinder = ComposableFunctionFinderImpl()
+    private val composableFunctionFinder: ComposableFunctionFinder = LineComposableFunctionFinderImpl()
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
         if (element == null) {

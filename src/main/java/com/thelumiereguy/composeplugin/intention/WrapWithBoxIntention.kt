@@ -8,15 +8,14 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.thelumiereguy.composeplugin.core.composable_function_finder.ComposableFunctionFinder
-import com.thelumiereguy.composeplugin.core.composable_function_finder.ComposableFunctionFinder2Impl
+import com.thelumiereguy.composeplugin.core.composable_function_finder.DeepComposableFunctionFinderImpl
 import com.thelumiereguy.composeplugin.core.get_root_element.GetRootElement
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.KtPsiFactory
-import org.jetbrains.uast.toUElement
 
-class ComposableWrapper : PsiElementBaseIntentionAction(), IntentionAction {
+class WrapWithBoxIntention : PsiElementBaseIntentionAction(), IntentionAction {
 
-    private val composableFunctionFinder: ComposableFunctionFinder = ComposableFunctionFinder2Impl()
+    private val composableFunctionFinder: ComposableFunctionFinder = DeepComposableFunctionFinderImpl()
 
     override fun getText(): String {
         return "Wrap with Composable"
@@ -51,14 +50,11 @@ class ComposableWrapper : PsiElementBaseIntentionAction(), IntentionAction {
         CommandProcessor.getInstance().executeCommand(
             project,
             {
-
                 getRootElement(element.parent)?.let { rootElement ->
                     val file = KtPsiFactory(project).createExpression(
                         """
-                                Row(modifier = Modifier) {
-                                    item {
+                                Box(modifier = Modifier) {
                                     ${rootElement.text}
-                                    }
                                 }
                             """.trimIndent().trim()
                     )

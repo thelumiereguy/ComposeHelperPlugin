@@ -5,6 +5,9 @@ import org.jetbrains.kotlin.psi.*
 
 class GetRootElement {
 
+    /**
+     * Composable can be CallExpression (Composable Function) or Property (Composable Property like remember)
+     */
     operator fun invoke(element: PsiElement): PsiElement? {
         //for normal composables
         if (element is KtNameReferenceExpression) {
@@ -17,6 +20,7 @@ class GetRootElement {
             return when (element.parent) {
                 is KtProperty,   // for composable properties
                 is KtDotQualifiedExpression -> invoke(element.parent)  //composable dot expression
+                is KtPropertyDelegate -> invoke(element.parent.parent)  //composable dot expression
                 else -> element
             }
         }
@@ -28,7 +32,7 @@ class GetRootElement {
 
         if (element is KtDotQualifiedExpression) {
             return if (element.parent is KtPropertyDelegate) {
-                invoke(element.parent)
+                invoke(element.parent.parent)
             } else element
         }
 

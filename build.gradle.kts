@@ -1,6 +1,6 @@
 plugins {
 //    id("java")
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.6.0"
     id("org.jetbrains.intellij") version "1.3.0"
 }
 
@@ -16,13 +16,13 @@ repositories {
 
 
 dependencies {
-//    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10")
-
+//    runtimeOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2020.3.1")
+//    version.set("211.7628.21")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 

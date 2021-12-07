@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.psi.KtValueArgumentList
 import org.jetbrains.uast.USimpleNameReferenceExpression
 import org.jetbrains.uast.toUElement
 
-class ComposableFunctionFinder2Impl : ComposableFunctionFinder {
+class DeepComposableFunctionFinderImpl : ComposableFunctionFinder {
 
     override fun isFunctionComposable(psiElement: PsiElement): Boolean {
 
