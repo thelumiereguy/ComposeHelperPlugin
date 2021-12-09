@@ -3,6 +3,14 @@ package com.thelumiereguy.composeplugin.core.get_root_element
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.*
 
+/**
+ *  KtValueArgumentList -> Parent -> KtNameReferenceExpression -> Parent -> KtCallExpression -> Parent -> KtPropertyDelegate -> Parent -> Property
+ *  KtNameReferenceExpression -> Parent -> KtCallExpression ->  Parent -> KtDotQualifiedExpression -> Parent -> KtPropertyDelegate ->  Property
+ *  KtNameReferenceExpression -> Parent -> KtCallExpression -> Parent -> KtPropertyDelegate -> Parent -> Property
+ *  KtNameReferenceExpression -> Parent -> KtCallExpression -> Parent -> Property
+ *  KtNameReferenceExpression -> Parent -> KtCallExpression
+ **/
+
 class GetRootElement {
 
     /**

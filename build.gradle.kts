@@ -16,7 +16,8 @@ repositories {
 
 
 dependencies {
-//    runtimeOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10")
+implementation("org.junit.jupiter:junit-jupiter:5.7.0")
+    //    runtimeOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
