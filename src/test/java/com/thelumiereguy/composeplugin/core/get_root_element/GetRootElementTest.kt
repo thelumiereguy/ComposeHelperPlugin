@@ -170,4 +170,44 @@ class GetRootElementTest : LightJavaCodeInsightFixtureTestCase() {
             getRootElement(referenceExpression)
         )
     }
+
+
+    @Test
+    fun `when a name reference expression is selected, with a property and dot qualified expression as root, property should be returned`() {
+        val ktPsiFactory = KtPsiFactory(project)
+
+        @Language("Kotlin")
+        val template = """
+          val repeatingAnimation = rememberInfiniteTransition()
+
+                                            // Dot qualified expression - .animateFloat
+                                            // |
+                                            // v
+          val offset = repeatingAnimation.animateFloat(
+              0f,
+              -20f,
+              infiniteRepeatable(
+                  repeatMode = RepeatMode.Reverse,
+                  animation = tween(
+                      durationMillis = 1000,
+                      easing = LinearEasing
+                  )
+              )
+          )
+          """.trimIndent().trim()
+
+        val file = ktPsiFactory.createFile(template)
+
+        val property = file.lastChild as KtProperty
+
+        val dotQualifiedExpression = property.lastChild as KtDotQualifiedExpression
+
+        val referenceExpression = dotQualifiedExpression.lastChild.firstChild as KtNameReferenceExpression
+
+        TestCase.assertEquals(
+            property,
+            getRootElement(referenceExpression)
+        )
+    }
+
 }

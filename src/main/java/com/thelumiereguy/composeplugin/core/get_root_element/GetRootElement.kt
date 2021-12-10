@@ -17,37 +17,21 @@ class GetRootElement {
      * Composable can be CallExpression (Composable Function) or Property (Composable Property like remember)
      */
     operator fun invoke(element: PsiElement): PsiElement? {
-        //for normal composables
-        if (element is KtNameReferenceExpression) {
-            return if (element.parent is KtCallExpression) {
-                invoke(element.parent)
-            } else element
-        }
 
-        if (element is KtCallExpression) {
-            return when (element.parent) {
-                is KtProperty,   // for composable properties
-                is KtDotQualifiedExpression -> invoke(element.parent)  //composable dot expression
-                is KtPropertyDelegate -> invoke(element.parent.parent)  //composable dot expression
-                else -> element
+        return when (element) {
+            is KtProperty -> element
+            is KtNameReferenceExpression,
+            is KtValueArgumentList -> invoke(element.parent)
+            is KtDotQualifiedExpression,
+            is KtCallExpression -> {
+                when (element.parent) {
+                    is KtProperty,
+                    is KtDotQualifiedExpression -> invoke(element.parent)  //composable dot expression
+                    is KtPropertyDelegate -> invoke(element.parent.parent)  //composable dot expression
+                    else -> element
+                }
             }
+            else -> element
         }
-
-        if (element is KtValueArgumentList) {
-            return invoke(element.parent)
-        }
-
-
-        if (element is KtDotQualifiedExpression) {
-            return if (element.parent is KtPropertyDelegate) {
-                invoke(element.parent.parent)
-            } else element
-        }
-
-        if (element is KtProperty) {
-            return element
-        }
-
-        return null
     }
 }
