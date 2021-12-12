@@ -1,5 +1,6 @@
 package com.thelumiereguy.composeplugin.intention.presentation.intentions
 
+import com.intellij.codeInsight.intention.HighPriorityAction
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -14,7 +15,7 @@ import com.thelumiereguy.composeplugin.intention.presentation.icons.SdkIcons
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import javax.swing.Icon
 
-class WrapWithRowIntention : PsiElementBaseIntentionAction(), ProvidesComposableTemplate, Iconable {
+class WrapWithRowIntention : PsiElementBaseIntentionAction(), ProvidesComposableTemplate, Iconable, HighPriorityAction {
 
     override fun getText(): String {
         return "Wrap with Row"

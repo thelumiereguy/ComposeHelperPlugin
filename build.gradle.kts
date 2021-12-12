@@ -22,8 +22,8 @@ implementation("org.junit.jupiter:junit-jupiter:5.7.0")
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2020.3.1")
-//    version.set("211.7628.21")
+//    version.set("2020.3.1")
+    version.set("211.7628.21")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 
@@ -33,9 +33,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 tasks {
-//    runIde {
-//        ideDir.set(file("D:\\android-studio"))
-//    }
+    runIde {
+        ideDir.set(file("D:\\android-studio"))
+    }
 
     patchPluginXml {
         changeNotes.set(

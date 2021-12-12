@@ -1,7 +1,6 @@
 package com.thelumiereguy.composeplugin.intention.presentation.intentions
 
 import com.intellij.codeInsight.intention.HighPriorityAction
-import com.intellij.codeInsight.intention.IntentionActionWithChoice
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -16,10 +15,11 @@ import com.thelumiereguy.composeplugin.intention.presentation.icons.SdkIcons
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import javax.swing.Icon
 
-class WrapWithBoxIntention : PsiElementBaseIntentionAction(), ProvidesComposableTemplate, Iconable, HighPriorityAction {
+class WrapWithLzyRowIntention : PsiElementBaseIntentionAction(), ProvidesComposableTemplate, Iconable,
+    HighPriorityAction {
 
     override fun getText(): String {
-        return "Wrap with Box"
+        return "Wrap with Lazy Row"
     }
 
     override fun getFamilyName(): String {
@@ -56,9 +56,11 @@ class WrapWithBoxIntention : PsiElementBaseIntentionAction(), ProvidesComposable
         }
     }
 
-    override val composableTemplatePrefix = "Box(modifier = Modifier) {"
+    override val composableTemplatePrefix = """LazyRow(modifier = Modifier) {
+        item {
+    """.trimMargin()
 
-    override val composableTemplateSuffix = "}"
+    override val composableTemplateSuffix = "}}"
 
     override fun getIcon(flags: Int): Icon = SdkIcons.composeIcon
 }
