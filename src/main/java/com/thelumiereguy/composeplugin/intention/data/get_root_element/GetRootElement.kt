@@ -1,4 +1,4 @@
-package com.thelumiereguy.composeplugin.core.get_root_element
+package com.thelumiereguy.composeplugin.intention.data.get_root_element
 
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.*

@@ -1,6 +1,7 @@
-package com.thelumiereguy.composeplugin.core.get_root_element
+package com.thelumiereguy.composeplugin.feature.intention.data.get_root_element
 
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
+import com.thelumiereguy.composeplugin.intention.data.get_root_element.GetRootElement
 import junit.framework.TestCase
 import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.psi.*

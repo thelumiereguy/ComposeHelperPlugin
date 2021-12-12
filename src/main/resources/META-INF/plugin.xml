@@ -11,20 +11,34 @@
          on how to target different products -->
     <depends>org.jetbrains.kotlin</depends>
     <depends>com.intellij.modules.java</depends>
-<!--    <depends>com.intellij.java</depends>-->
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <intentionAction>
-            <className>com.thelumiereguy.composeplugin.intention.WrapWithBoxIntention</className>
-            <category>SDK intentions</category>
+
+        <intentionAction id="wrap_composable" order="first">
+            <className>com.thelumiereguy.composeplugin.intention.presentation.intentions.WrapWithComposableIntention</className>
+            <category>Composable intentions</category>
         </intentionAction>
 
+        <intentionAction id="wrap_box" order="after wrap_composable">
+            <className>com.thelumiereguy.composeplugin.intention.presentation.intentions.WrapWithBoxIntention</className>
+            <category>Composable intentions</category>
+        </intentionAction>
 
-        <codeInsight.lineMarkerProvider
-                language="kotlin"
-                implementationClass="com.thelumiereguy.composeplugin.line_marker_provider.ComposeLineMarkerProvider">
-        </codeInsight.lineMarkerProvider>
+        <intentionAction id="wrap_card" order="after wrap_box">
+            <className>com.thelumiereguy.composeplugin.intention.presentation.intentions.WrapWithCardIntention</className>
+            <category>Composable intentions</category>
+        </intentionAction>
+
+        <intentionAction id="wrap_column" order="after wrap_card">
+            <className>com.thelumiereguy.composeplugin.intention.presentation.intentions.WrapWithColumnIntention</className>
+            <category>Composable intentions</category>
+        </intentionAction>
+
+        <intentionAction id="wrap_row" order="after wrap_column">
+            <className>com.thelumiereguy.composeplugin.intention.presentation.intentions.WrapWithRowIntention</className>
+            <category>Composable intentions</category>
+        </intentionAction>
     </extensions>
 
 </idea-plugin>
