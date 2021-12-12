@@ -50,6 +50,12 @@
             </className>
             <category>Composable intentions</category>
         </intentionAction>
+
+        <intentionAction id="remove_composable"  order="after wrap_lazy_row">
+            <className>com.thelumiereguy.composeplugin.intention.presentation.intentions.RemoveComposableIntention
+            </className>
+            <category>Composable intentions</category>
+        </intentionAction>
     </extensions>
 
 </idea-plugin>
