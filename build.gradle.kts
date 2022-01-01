@@ -1,29 +1,25 @@
 plugins {
-//    id("java")
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.5.31"
     id("org.jetbrains.intellij") version "1.3.0"
 }
 
-group = "com.thelumiereguy.composeplugin"
-version = "1.0-SNAPSHOT"
+group = "com.thelumiereguy.compose_helper"
+version = "1.0.0"
+
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven { url = uri("https://maven.google.com/") }
-    maven { url = uri("https://dl.bintray.com/kotlin/uast/") }
 }
 
 
 dependencies {
-implementation("org.junit.jupiter:junit-jupiter:5.7.0")
-    //    runtimeOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.5.10")
+    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-//    version.set("2020.3.1")
-    version.set("211.7628.21")
+    version.set("2021.1.1")
+//    version.set("211.7628.21")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 
@@ -33,6 +29,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 tasks {
+    publishPlugin {
+        token.set(System.getenv("Jetbrains_Compose_Helper_Token"))
+    }
+
     runIde {
         ideDir.set(file("D:\\android-studio"))
     }
@@ -40,8 +40,11 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Add change notes here.<br>
-            <em>most HTML tags may be used</em>        """.trimIndent()
+           <ul>
+             <li><b>1.0.0</b> Initial Version</li>
+          </ul>
+             
+             """.trimIndent()
         )
     }
 }

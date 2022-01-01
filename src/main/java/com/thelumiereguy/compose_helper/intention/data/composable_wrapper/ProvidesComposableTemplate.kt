@@ -1,4 +1,4 @@
-package com.thelumiereguy.composeplugin.intention.data.composable_wrapper
+package com.thelumiereguy.compose_helper.intention.data.composable_wrapper
 
 interface ProvidesComposableTemplate {
 

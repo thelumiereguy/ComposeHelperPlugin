@@ -1,4 +1,4 @@
-package com.thelumiereguy.composeplugin.intention.presentation.icons
+package com.thelumiereguy.compose_helper.intention.presentation.icons
 
 import com.intellij.openapi.util.IconLoader
 

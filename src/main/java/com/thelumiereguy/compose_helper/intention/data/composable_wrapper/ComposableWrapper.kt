@@ -1,4 +1,4 @@
-package com.thelumiereguy.composeplugin.intention.data.composable_wrapper
+package com.thelumiereguy.compose_helper.intention.data.composable_wrapper
 
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
@@ -20,9 +20,8 @@ class ComposableWrapper(private val composableTemplateProvider: ProvidesComposab
                             rootElement.text +
                             composableTemplateProvider.composableTemplateSuffix
                 )
-                rootElement.replace(newElement)
 
-                postProcessingBlock(newElement)
+                postProcessingBlock(rootElement.replace(newElement))
             }, "",
             "composeplugin"
         )

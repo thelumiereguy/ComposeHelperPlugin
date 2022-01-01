@@ -1,4 +1,4 @@
-package com.thelumiereguy.composeplugin.intention.data.composable_finder
+package com.thelumiereguy.compose_helper.intention.data.composable_finder
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
