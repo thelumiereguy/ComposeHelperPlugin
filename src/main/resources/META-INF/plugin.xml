@@ -2,7 +2,7 @@
     <id>com.thelumiereguy.compose_helper</id>
     <name>Compose Helper</name>
     <vendor email="piyushvp1@gmail.com" url="https://github.com/thelumiereguy">thelumiereguy</vendor>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description><![CDATA[
     A simple plugin to wrap your <a href="https://developer.android.com/jetpack/compose/">Composables</a> with another Composable. </br> </br>
     Just keep your caret in the Editor on the composable, and <b>press on the yellow bulb on the left, or press Alt+Enter to show hints/intentions</b>. </br></br>
