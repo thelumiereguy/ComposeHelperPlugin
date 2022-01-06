@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.thelumiereguy.compose_helper"
-version = "1.0.1"
+version = "1.0.2"
 
 
 repositories {
@@ -20,7 +20,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2020.3.1")
+    version.set("2021.1.1")
 //    version.set("211.7628.21")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
@@ -41,7 +41,7 @@ tasks {
 
 
     patchPluginXml {
-        sinceBuild.set("203.*")
+        sinceBuild.set("201.*")
         untilBuild.set("211.*")
         changeNotes.set(
             """
