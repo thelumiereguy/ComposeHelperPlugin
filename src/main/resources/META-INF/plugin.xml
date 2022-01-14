@@ -24,50 +24,22 @@
     <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
 
-
     <extensions defaultExtensionNs="com.intellij">
 
-        <intentionAction id="wrap_box" order="first">
-            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithBoxIntention
+        <defaultLiveTemplates file="templates/WrappedComposables.xml"/>
+
+        <intentionAction id="wrap_group" order="first">
+            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithComposableIntentionGroup
             </className>
             <category>Composable intentions</category>
         </intentionAction>
 
-        <intentionAction id="wrap_card" order="after wrap_box">
-            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithCardIntention
-            </className>
-            <category>Composable intentions</category>
-        </intentionAction>
-
-        <intentionAction id="wrap_column" order="after wrap_card">
-            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithColumnIntention
-            </className>
-            <category>Composable intentions</category>
-        </intentionAction>
-
-        <intentionAction id="wrap_row" order="after wrap_column">
-            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithRowIntention
-            </className>
-            <category>Composable intentions</category>
-        </intentionAction>
-
-        <intentionAction id="wrap_lazy_column" order="after wrap_row">
-            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithLzyColumnIntention
-            </className>
-            <category>Composable intentions</category>
-        </intentionAction>
-
-        <intentionAction id="wrap_lazy_row" order="after wrap_lazy_column">
-            <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.WrapWithLzyRowIntention
-            </className>
-            <category>Composable intentions</category>
-        </intentionAction>
-
-        <intentionAction id="remove_composable" order="after wrap_lazy_row">
+        <intentionAction id="remove_composable" order="last">
             <className>com.thelumiereguy.compose_helper.intention.presentation.intentions.RemoveComposableIntention
             </className>
             <category>Composable intentions</category>
         </intentionAction>
+
     </extensions>
 
 </idea-plugin>

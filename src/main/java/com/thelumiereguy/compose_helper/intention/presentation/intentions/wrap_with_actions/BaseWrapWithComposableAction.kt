@@ -1,36 +1,30 @@
-package com.thelumiereguy.compose_helper.intention.presentation.intentions
+package com.thelumiereguy.compose_helper.intention.presentation.intentions.wrap_with_actions
 
 import com.intellij.codeInsight.intention.HighPriorityAction
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
+import com.intellij.codeInsight.template.impl.InvokeTemplateAction
+import com.intellij.codeInsight.template.impl.TemplateImpl
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.thelumiereguy.compose_helper.intention.data.composable_finder.ComposableFunctionFinder
 import com.thelumiereguy.compose_helper.intention.data.composable_finder.DeepComposableFunctionFinderImpl
-import com.thelumiereguy.compose_helper.intention.data.composable_wrapper.ComposableWrapper
-import com.thelumiereguy.compose_helper.intention.data.composable_wrapper.ProvidesComposableTemplate
 import com.thelumiereguy.compose_helper.intention.data.get_root_element.GetRootElement
-import com.thelumiereguy.compose_helper.intention.presentation.icons.SdkIcons
 import org.jetbrains.kotlin.idea.KotlinLanguage
-import javax.swing.Icon
 
-class WrapWithLzyColumnIntention : PsiElementBaseIntentionAction(), ProvidesComposableTemplate, Iconable,
-    HighPriorityAction {
+abstract class BaseWrapWithComposableAction : PsiElementBaseIntentionAction(), HighPriorityAction {
 
-    override fun getText(): String {
-        return "Wrap with Lazy Column"
+    private val composableFunctionFinder: ComposableFunctionFinder by lazy {
+        DeepComposableFunctionFinderImpl()
+    }
+
+    private val getRootElement by lazy {
+        GetRootElement()
     }
 
     override fun getFamilyName(): String {
-        return "ComposableIntention"
+        return "Compose helper actions"
     }
-
-    private val composableFunctionFinder: ComposableFunctionFinder = DeepComposableFunctionFinderImpl()
-
-    private val getRootElement = GetRootElement()
-
-    private val composableWrapper = ComposableWrapper(this)
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.language.id != KotlinLanguage.INSTANCE.id) { //Compose is for Kotlin
@@ -46,17 +40,23 @@ class WrapWithLzyColumnIntention : PsiElementBaseIntentionAction(), ProvidesComp
         } ?: false
     }
 
+    override fun startInWriteAction(): Boolean = true
+
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         getRootElement(element.parent)?.let { rootElement ->
-            composableWrapper.wrap(rootElement, project)
+            val selectionModel = editor!!.selectionModel
+            val textRange = rootElement.textRange
+            selectionModel.setSelection(textRange.startOffset, textRange.endOffset)
+
+            InvokeTemplateAction(
+                getTemplate(),
+                editor,
+                project,
+                HashSet()
+            ).perform()
         }
     }
 
-    override val composableTemplatePrefix = """LazyColumn(modifier = Modifier) {
-        item {
-    """.trimMargin()
+    protected abstract fun getTemplate(): TemplateImpl?
 
-    override val composableTemplateSuffix = "}}"
-
-    override fun getIcon(flags: Int): Icon = SdkIcons.composeIcon
 }
