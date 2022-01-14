@@ -1,11 +1,6 @@
 package com.thelumiereguy.compose_helper.intention.data.composable_finder
 
-import com.intellij.openapi.roots.ProjectRootModificationTracker
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiMethod
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
-import org.jetbrains.kotlin.idea.caches.project.NotUnderContentRootModuleInfo.project
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtValueArgumentList
@@ -49,32 +44,5 @@ class DeepComposableFunctionFinderImpl : ComposableFunctionFinder {
         }
     }
 
-    private fun detectComposableFromCallExpression(psiElement: KtCallExpression): Boolean {
-        return psiElement.children.any {
-            val child = it.toUElement()
-            if (child is USimpleNameReferenceExpression) {
-                detectComposableFromReferenceExpression(child)
-            } else false
-        }
-    }
 
-    private fun detectComposableFromReferenceExpression(uElement: USimpleNameReferenceExpression): Boolean {
-        uElement.resolve()?.let { psiElement ->
-            if (psiElement is PsiMethod) {
-                return CachedValuesManager.getCachedValue(psiElement) {
-
-                    val hasComposableAnnotation = psiElement.annotations.any { annotation ->
-                        annotation.hasQualifiedName("androidx.compose.runtime.Composable")
-                    }
-
-                    CachedValueProvider.Result.create(
-                        hasComposableAnnotation,
-                        psiElement.containingFile,
-                        ProjectRootModificationTracker.getInstance(psiElement.project)
-                    )
-                }
-            }
-        }
-        return false
-    }
 }

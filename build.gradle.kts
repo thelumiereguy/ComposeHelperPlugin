@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.thelumiereguy.compose_helper"
-version = "1.0.2"
+version = "2.0.0"
 
 
 repositories {
@@ -46,6 +46,8 @@ tasks {
         changeNotes.set(
             """
            <ul>
+             <li><b>2.0.0</b> Complete Rewrite - Optimizations and added new features</li>
+             <li><b>1.0.2</b> Added support for older Android Studio versions</li>
              <li><b>1.0.1</b> Added support for Artic Fox</li>
              <li><b>1.0.0</b> Initial Version</li>
           </ul>

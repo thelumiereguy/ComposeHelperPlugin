@@ -10,7 +10,6 @@ import org.jetbrains.kotlin.psi.*
  *  KtNameReferenceExpression -> Parent -> KtCallExpression -> Parent -> Property
  *  KtNameReferenceExpression -> Parent -> KtCallExpression
  **/
-
 class GetRootElement {
 
     /**
