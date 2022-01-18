@@ -45,7 +45,11 @@ class RemoveParentComposableIntention : PsiElementBaseIntentionAction(), Iconabl
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
-        val wrapper = element.parentOfType<KtNameReferenceExpression>() ?: return
+        val wrapper = if (element.parent is KtValueArgumentList) {
+            element.parent.prevSibling as? KtNameReferenceExpression ?: return
+        } else {
+            element.parentOfType<KtNameReferenceExpression>() ?: return
+        }
         val callExpression = (wrapper.parent as? KtCallExpression) ?: return
         val lambdaBlock =
             callExpression.lambdaArguments.firstOrNull()?.getLambdaExpression()?.functionLiteral?.bodyExpression

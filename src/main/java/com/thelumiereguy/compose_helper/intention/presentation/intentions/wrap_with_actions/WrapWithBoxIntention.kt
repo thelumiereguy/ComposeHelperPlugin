@@ -10,6 +10,6 @@ class WrapWithBoxIntention : BaseWrapWithComposableAction() {
     }
 
     override fun getTemplate(): TemplateImpl? {
-        return TemplateSettings.getInstance().getTemplate("WwB", "WrappedComposables")
+        return TemplateSettings.getInstance().getTemplate("WwB", "ComposeHelperTemplate")
     }
 }

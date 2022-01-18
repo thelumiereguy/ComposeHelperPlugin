@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.thelumiereguy.compose_helper"
-version = "2.0.0"
+version = "2.0.1"
 
 
 repositories {
@@ -21,7 +21,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2021.1.1")
-//    version.set("211.7628.21")
+//    version.set("2020.3.1")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 
@@ -46,6 +46,7 @@ tasks {
         changeNotes.set(
             """
            <ul>
+             <li><b>2.0.1</b> Bug fix - Parent Composable not actually being removed in some cases</li>
              <li><b>2.0.0</b> Complete Rewrite - Optimizations and added new features</li>
              <li><b>1.0.2</b> Added support for older Android Studio versions</li>
              <li><b>1.0.1</b> Added support for Artic Fox</li>

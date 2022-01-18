@@ -10,6 +10,6 @@ class WrapWithColumnIntention : BaseWrapWithComposableAction() {
     }
 
     override fun getTemplate(): TemplateImpl? {
-        return TemplateSettings.getInstance().getTemplate("WwCol", "WrappedComposables")
+        return TemplateSettings.getInstance().getTemplate("WwCol", "ComposeHelperTemplate")
     }
 }

@@ -42,8 +42,8 @@ jobs:
       - name: Grant Permission to Execute
         run: chmod +x gradlew
 
-      - name: Verify Plugin
-        run: bash ./gradlew verifyPlugin --stacktrace
-      
       - name: Run tests
         run: bash ./gradlew test --stacktrace
+
+      - name: Verify Plugin
+        run: bash ./gradlew verifyPlugin --stacktrace

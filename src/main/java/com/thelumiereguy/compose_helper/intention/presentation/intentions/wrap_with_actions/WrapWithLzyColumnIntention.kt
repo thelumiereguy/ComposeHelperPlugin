@@ -10,6 +10,6 @@ class WrapWithLzyColumnIntention : BaseWrapWithComposableAction() {
     }
 
     override fun getTemplate(): TemplateImpl? {
-        return TemplateSettings.getInstance().getTemplate("WwLazyCol", "WrappedComposables")
+        return TemplateSettings.getInstance().getTemplate("WwLazyCol", "ComposeHelperTemplate")
     }
 }

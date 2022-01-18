@@ -10,6 +10,6 @@ class WrapWithCardIntention : BaseWrapWithComposableAction() {
     }
 
     override fun getTemplate(): TemplateImpl? {
-        return TemplateSettings.getInstance().getTemplate("WwC", "WrappedComposables")
+        return TemplateSettings.getInstance().getTemplate("WwC", "ComposeHelperTemplate")
     }
 }
