@@ -16,6 +16,7 @@ import javax.swing.Icon
 class WrapWithComposableIntentionGroup :
     IntentionActionGroup<BaseWrapWithComposableAction>(
         listOf(
+            WrapWithYourOwnIntention(),
             WrapWithBoxIntention(),
             WrapWithCardIntention(),
             WrapWithColumnIntention(),

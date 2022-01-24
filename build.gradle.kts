@@ -35,9 +35,9 @@ tasks {
         token.set(System.getenv("Jetbrains_Compose_Helper_Token"))
     }
 
-//    runIde {
-//        ideDir.set(file("D:\\android-studio"))
-//    }
+    runIde {
+        ideDir.set(file("D:\\android-studio"))
+    }
 
 
     patchPluginXml {
