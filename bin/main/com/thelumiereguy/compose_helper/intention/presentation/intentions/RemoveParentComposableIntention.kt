@@ -18,19 +18,17 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import javax.swing.Icon
 
-class ExtractComposableIntention : PsiElementBaseIntentionAction(), Iconable, PriorityAction {
+class RemoveParentComposableIntention : PsiElementBaseIntentionAction(), Iconable, PriorityAction {
 
     override fun getText(): String {
-        return "Extract composable"
+        return "Remove the parent Composable"
     }
 
     override fun getFamilyName(): String {
         return "Compose helper actions"
     }
 
-    private val getRootElement = GetRootElement()
-
-    private val composableFunctionFinder: ComposableFunctionFinder = DeepComposableFunctionFinderImpl()
+    private val composableFunctionFinder: ComposableFunctionFinder = ParentComposableFinder()
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.language.id != KotlinLanguage.INSTANCE.id) { //Compose is for Kotlin
@@ -47,7 +45,16 @@ class ExtractComposableIntention : PsiElementBaseIntentionAction(), Iconable, Pr
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
-        getRootElement(element.parent)?.delete()
+        val wrapper = if (element.parent is KtValueArgumentList) {
+            element.parent.prevSibling as? KtNameReferenceExpression ?: return
+        } else {
+            element.parentOfType<KtNameReferenceExpression>() ?: return
+        }
+        val callExpression = (wrapper.parent as? KtCallExpression) ?: return
+        val lambdaBlock =
+            callExpression.lambdaArguments.firstOrNull()?.getLambdaExpression()?.functionLiteral?.bodyExpression
+                ?: return
+        callExpression.replace(lambdaBlock)
     }
 
     override fun getIcon(flags: Int): Icon = SdkIcons.composeIcon
