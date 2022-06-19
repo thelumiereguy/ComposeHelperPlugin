@@ -6,19 +6,28 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.parentOfType
 import com.thelumiereguy.compose_helper.intention.data.composable_finder.ComposableFunctionFinder
 import com.thelumiereguy.compose_helper.intention.data.composable_finder.DeepComposableFunctionFinderImpl
-import com.thelumiereguy.compose_helper.intention.data.composable_finder.ParentComposableFinder
 import com.thelumiereguy.compose_helper.intention.data.get_root_element.GetRootElement
+import com.thelumiereguy.compose_helper.intention.presentation.dialog.ExtractInterfaceDialog
 import com.thelumiereguy.compose_helper.intention.presentation.icons.SdkIcons
-import org.jetbrains.kotlin.idea.KotlinLanguage
-import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import javax.swing.Icon
+import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
+import org.jetbrains.kotlin.idea.core.getPackage
+import org.jetbrains.kotlin.idea.refactoring.showWithTransaction
+import org.jetbrains.kotlin.idea.util.application.executeCommand
+import org.jetbrains.kotlin.j2k.getContainingClass
+import org.jetbrains.kotlin.nj2k.postProcessing.resolve
+import org.jetbrains.kotlin.psi.KtCallExpression
+import org.jetbrains.kotlin.psi.KtFunction
+import org.jetbrains.kotlin.psi.KtNameReferenceExpression
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 class ExtractComposableIntention : PsiElementBaseIntentionAction(), Iconable, PriorityAction {
+
+    override fun startInWriteAction(): Boolean = false
 
     override fun getText(): String {
         return "Extract composable"
@@ -47,7 +56,28 @@ class ExtractComposableIntention : PsiElementBaseIntentionAction(), Iconable, Pr
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
-        getRootElement(element.parent)?.delete()
+//        getRootElement(element.parent)?.delete()
+        val rootComposable = getRootElement(element.parent) ?: return
+
+        val sourceFile = element.containingFile
+
+        val composableName = if (rootComposable is KtCallExpression) {
+            rootComposable.getChildOfType<KtNameReferenceExpression>()?.getReferencedName()
+        } else {
+            rootComposable.getChildOfType<KtCallExpression>()
+                ?.getChildOfType<KtNameReferenceExpression>()
+                ?.getReferencedName()
+        } ?: return
+
+        val packageName = element.containingFile.containingDirectory.getPackage()?.qualifiedName ?: return
+
+        ExtractInterfaceDialog(
+            project,
+            rootComposable,
+            composableName,
+            sourceFile,
+            packageName
+        ).showWithTransaction()
     }
 
     override fun getIcon(flags: Int): Icon = SdkIcons.composeIcon

@@ -20,14 +20,14 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.1.1")
+    version.set("2022.1.1")
 //    version.set("2020.3.1")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 tasks {
@@ -35,9 +35,10 @@ tasks {
         token.set(System.getenv("Jetbrains_Compose_Helper_Token"))
     }
 
-//    runIde {
+    runIde {
 //        ideDir.set(file("D:\\android-studio"))
-//    }
+        ideDir.set(ideaDir("/Applications/Android Studio Preview.app"))
+    }
 
 
     patchPluginXml {
