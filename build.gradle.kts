@@ -42,10 +42,11 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("201.*")
-        untilBuild.set("213.*")
+        untilBuild.set("222.*")
         changeNotes.set(
             """
            <ul>
+             <li><b>2.0.3</b> Added support for Android Studio - Electric Eel and Flamingo</li>
              <li><b>2.0.2</b> Added support for Android Studio - Chipmunk and Dolphin</li>
              <li><b>2.0.1</b> Bug fix - Parent Composable not actually being removed in some cases</li>
              <li><b>2.0.0</b> Complete Rewrite - Optimizations and added new features</li>
