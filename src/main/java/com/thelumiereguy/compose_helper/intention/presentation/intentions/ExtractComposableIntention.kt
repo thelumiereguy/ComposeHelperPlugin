@@ -15,11 +15,13 @@ import javax.swing.Icon
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
 import org.jetbrains.kotlin.idea.core.getPackage
+import org.jetbrains.kotlin.idea.refactoring.introduce.extractFunction.ExtractKotlinFunctionHandler
 import org.jetbrains.kotlin.idea.refactoring.showWithTransaction
 import org.jetbrains.kotlin.idea.util.application.executeCommand
 import org.jetbrains.kotlin.j2k.getContainingClass
 import org.jetbrains.kotlin.nj2k.postProcessing.resolve
 import org.jetbrains.kotlin.psi.KtCallExpression
+import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtFunction
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtNamedFunction
@@ -71,13 +73,20 @@ class ExtractComposableIntention : PsiElementBaseIntentionAction(), Iconable, Pr
 
         val packageName = element.containingFile.containingDirectory.getPackage()?.qualifiedName ?: return
 
-        ExtractInterfaceDialog(
+//        ExtractInterfaceDialog(
+//            project,
+//            rootComposable,
+//            composableName,
+//            sourceFile,
+//            packageName
+//        ).showWithTransaction()
+
+        ExtractKotlinFunctionHandler(true, ExtractKotlinFunctionHandler.InteractiveExtractionHelper).invoke(
             project,
-            rootComposable,
-            composableName,
+            editor!!,
             sourceFile,
-            packageName
-        ).showWithTransaction()
+            null
+        )
     }
 
     override fun getIcon(flags: Int): Icon = SdkIcons.composeIcon

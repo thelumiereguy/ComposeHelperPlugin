@@ -45,14 +45,12 @@ internal class ExtractInterfaceDialog(
 ) : RefactoringDialog(
     project,
     true
-), WriteActionAware {
+) {
     companion object {
         private const val DESTINATION_PACKAGE_RECENT_KEY = "ExtractSuperBase.RECENT_KEYS"
         private const val KOTLIN_FILE_TYPE = ".${KotlinFileType.EXTENSION}"
         private const val REFACTORING_NAME = "Extract Composable"
     }
-
-    override fun startInWriteAction(): Boolean = true
 
     private var destinationPackageField: PackageNameReferenceEditorCombo
     private var destinationFileTextField: JTextField
