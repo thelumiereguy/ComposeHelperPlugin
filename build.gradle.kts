@@ -1,18 +1,16 @@
-import org.jetbrains.intellij.ideaDir
-
 plugins {
-    kotlin("jvm") version "1.5.31"
-    id("org.jetbrains.intellij") version "1.3.0"
+    id("org.jetbrains.kotlin.jvm") version "1.8.21"
+    id("org.jetbrains.intellij") version "1.13.3"
 }
 
-group = "com.thelumiereguy.compose_helper"
-version = "2.0.2"
+val pluginVersion = "2.0.4"
 
+group = "com.thelumiereguy.compose_helper"
+version = pluginVersion
 
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
@@ -20,32 +18,38 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.1.1")
-//    version.set("2020.3.1")
+    version.set("2023.1.1")
     plugins.set(listOf("com.intellij.java", "Kotlin"))
 }
 
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+kotlin {
+    jvmToolchain {
+        version = "1.8"
+    }
 }
-
 tasks {
-    publishPlugin {
-        token.set(System.getenv("Jetbrains_Compose_Helper_Token"))
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
     }
 
-//    runIde {
-//        ideDir.set(file("D:\\android-studio"))
-//    }
+    withType<JavaCompile> {
+        targetCompatibility = "11"
+        sourceCompatibility = "11"
+    }
+
+    publishPlugin {
+        token.set("perm:cGl5dXNodnAx.OTItNTM3Mg==.nvd7qReWnIR9isDtnNjgsYpAjXeEit")
+    }
 
 
     patchPluginXml {
-        sinceBuild.set("201.*")
-        untilBuild.set("222.*")
+        version.set(pluginVersion)
+        sinceBuild.set("211.*")
+        untilBuild.set("231.*")
         changeNotes.set(
             """
            <ul>
+             <li><b>2.0.4</b> Added support for Android Studio - Giraffe and Hedgehog</li>
              <li><b>2.0.3</b> Added support for Android Studio - Electric Eel and Flamingo</li>
              <li><b>2.0.2</b> Added support for Android Studio - Chipmunk and Dolphin</li>
              <li><b>2.0.1</b> Bug fix - Parent Composable not actually being removed in some cases</li>
@@ -53,9 +57,8 @@ tasks {
              <li><b>1.0.2</b> Added support for older Android Studio versions</li>
              <li><b>1.0.1</b> Added support for Artic Fox</li>
              <li><b>1.0.0</b> Initial Version</li>
-          </ul>
-             
-             """.trimIndent()
+          </ul>    
+            """.trimIndent()
         )
     }
 }

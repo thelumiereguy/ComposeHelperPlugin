@@ -1,4 +1,4 @@
-package com.thelumiereguy.compose_helper.intention.presentation.intentions.wrap_with_actions
+package com.thelumiereguy.compose_helper.intention.actions.wrapActions
 
 import com.intellij.codeInsight.intention.HighPriorityAction
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
@@ -7,37 +7,29 @@ import com.intellij.codeInsight.template.impl.TemplateImpl
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
-import com.thelumiereguy.compose_helper.intention.data.composable_finder.ComposableFunctionFinder
-import com.thelumiereguy.compose_helper.intention.data.composable_finder.DeepComposableFunctionFinderImpl
-import com.thelumiereguy.compose_helper.intention.data.get_root_element.GetRootElement
-import org.jetbrains.kotlin.idea.KotlinLanguage
+import com.thelumiereguy.compose_helper.intention.actions.utils.composableFinder.ComposableFunctionFinder
+import com.thelumiereguy.compose_helper.intention.actions.utils.composableFinder.ComposableFunctionFinderImpl
+import com.thelumiereguy.compose_helper.intention.actions.utils.getRootPsiElement.GetRootPsiElement
+import com.thelumiereguy.compose_helper.intention.actions.utils.isIntentionAvailable
 
-abstract class BaseWrapWithComposableAction : PsiElementBaseIntentionAction(), HighPriorityAction {
+abstract class BaseWrapWithComposableAction :
+    PsiElementBaseIntentionAction(),
+    HighPriorityAction {
 
     private val composableFunctionFinder: ComposableFunctionFinder by lazy {
-        DeepComposableFunctionFinderImpl()
+        ComposableFunctionFinderImpl()
     }
 
     private val getRootElement by lazy {
-        GetRootElement()
+        GetRootPsiElement()
     }
 
     override fun getFamilyName(): String {
-        return "Compose helper actions"
+        return "Compose Multiplatform intentions"
     }
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        if (element.language.id != KotlinLanguage.INSTANCE.id) { //Compose is for Kotlin
-            return false
-        }
-
-        if (!element.isWritable) {
-            return false
-        }
-
-        return element.parent?.let { parentPsiElement ->
-            composableFunctionFinder.isFunctionComposable(parentPsiElement)
-        } ?: false
+        return element.isIntentionAvailable(composableFunctionFinder)
     }
 
     override fun startInWriteAction(): Boolean = true
@@ -58,5 +50,4 @@ abstract class BaseWrapWithComposableAction : PsiElementBaseIntentionAction(), H
     }
 
     protected abstract fun getTemplate(): TemplateImpl?
-
 }
