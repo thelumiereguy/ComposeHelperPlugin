@@ -38,7 +38,7 @@ tasks {
     }
 
     publishPlugin {
-        token.set("perm:cGl5dXNodnAx.OTItNTM3Mg==.nvd7qReWnIR9isDtnNjgsYpAjXeEit")
+        token.set(System.getenv("Jetbrains_Compose_Helper_Token"))
     }
 
 
