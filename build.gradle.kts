@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.13.3"
 }
 
-val pluginVersion = "2.0.4"
+val pluginVersion = "2.0.5"
 
 group = "com.thelumiereguy.compose_helper"
 version = pluginVersion
@@ -45,10 +45,11 @@ tasks {
     patchPluginXml {
         version.set(pluginVersion)
         sinceBuild.set("211.*")
-        untilBuild.set("231.*")
+        untilBuild.set("241.*")
         changeNotes.set(
             """
            <ul>
+             <li><b>2.0.5</b> Added support for Android Studio - Koala and IntelliJ 2024.1</li>
              <li><b>2.0.4</b> Added support for Android Studio - Giraffe and Hedgehog</li>
              <li><b>2.0.3</b> Added support for Android Studio - Electric Eel and Flamingo</li>
              <li><b>2.0.2</b> Added support for Android Studio - Chipmunk and Dolphin</li>
